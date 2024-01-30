@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://b4h5hduopdy83"]
+
+[ext_resource type="Script" path="res://scripts/file_tree.gd" id="1_t0aib"]
+
+[node name="FileTree" type="Tree"]
+hide_root = true
+select_mode = 2
+script = ExtResource("1_t0aib")
