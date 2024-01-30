@@ -7,8 +7,11 @@ allow_rmb_select = true
 hide_root = true
 select_mode = 2
 script = ExtResource("1_t0aib")
+item_menu_path = NodePath("ItemPopupMenu")
+multi_menu_path = NodePath("MultiPopupMenu")
+dir_menu_path = NodePath("DirPopupMenu")
 
-[node name="PopupMenu" type="PopupMenu" parent="."]
+[node name="ItemPopupMenu" type="PopupMenu" parent="."]
 item_count = 5
 item_0/text = "Open"
 item_0/id = 0
@@ -16,10 +19,50 @@ item_1/text = "Copy Path"
 item_1/id = 1
 item_2/text = "Rename"
 item_2/id = 2
-item_3/text = "Delete"
-item_3/id = 3
-item_4/text = "Duplicate"
-item_4/id = 4
+item_3/text = "Duplicate"
+item_3/id = 4
+item_4/text = "Delete"
+item_4/id = 3
+
+[node name="MultiPopupMenu" type="PopupMenu" parent="."]
+item_count = 5
+item_0/text = "Open"
+item_0/id = 0
+item_1/text = "Copy Path"
+item_1/id = 1
+item_2/text = "Rename"
+item_2/id = 2
+item_3/text = "Duplicate"
+item_3/id = 4
+item_4/text = "Delete"
+item_4/id = 3
+
+[node name="DirPopupMenu" type="PopupMenu" parent="."]
+item_count = 7
+item_0/text = "Create New"
+item_0/id = 0
+item_1/text = ""
+item_1/id = 99
+item_1/separator = true
+item_2/text = "Expand/Collapse"
+item_2/id = 1
+item_3/text = "Copy Path"
+item_3/id = 2
+item_4/text = "Rename"
+item_4/id = 3
+item_5/text = "Duplicate"
+item_5/id = 4
+item_6/text = "Delete"
+item_6/id = 5
+
+[node name="CreateNewSubMenu" type="PopupMenu" parent="DirPopupMenu"]
+item_count = 3
+item_0/text = "Lua Script"
+item_0/id = 0
+item_1/text = "Node"
+item_1/id = 1
+item_2/text = "Craft"
+item_2/id = 2
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 5.0
@@ -27,5 +70,8 @@ autostart = true
 
 [connection signal="item_edited" from="." to="." method="_on_item_edited"]
 [connection signal="item_mouse_selected" from="." to="." method="_on_item_mouse_selected"]
-[connection signal="id_pressed" from="PopupMenu" to="." method="_on_right_click_menu_id_pressed"]
+[connection signal="id_pressed" from="ItemPopupMenu" to="." method="_on_item_popup_menu_id_pressed"]
+[connection signal="id_pressed" from="MultiPopupMenu" to="." method="_on_multi_popup_menu_id_pressed"]
+[connection signal="id_pressed" from="DirPopupMenu" to="." method="_on_dir_popup_menu_id_pressed"]
+[connection signal="id_pressed" from="DirPopupMenu/CreateNewSubMenu" to="." method="_on_dir_create_new_submenu_id_pressed"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

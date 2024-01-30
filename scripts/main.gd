@@ -1,7 +1,8 @@
 extends Control
 
 
-@onready var file_tree = $VBoxContainer/SplitContainer/FileTree
+@export_node_path("Tree") var file_tree_path
+@onready var file_tree = get_node(file_tree_path)
 
 
 # Called when the node enters the scene tree for the first time.

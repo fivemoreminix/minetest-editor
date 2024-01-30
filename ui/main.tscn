@@ -12,6 +12,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_xx10m")
+file_tree_path = NodePath("VBoxContainer/Panel/SplitContainer/TabContainer/File System")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -31,22 +32,35 @@ item_0/id = 0
 item_1/text = "New Project..."
 item_1/id = 1
 
-[node name="SplitContainer" type="SplitContainer" parent="VBoxContainer"]
+[node name="Panel" type="Panel" parent="VBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 3
+
+[node name="SplitContainer" type="SplitContainer" parent="VBoxContainer/Panel"]
+layout_mode = 2
+offset_top = 4.0
+offset_right = 1152.0
+offset_bottom = 613.0
 size_flags_vertical = 3
 split_offset = 300
 
-[node name="FileTree" parent="VBoxContainer/SplitContainer" instance=ExtResource("1_473ot")]
+[node name="TabContainer" type="TabContainer" parent="VBoxContainer/Panel/SplitContainer"]
 layout_mode = 2
 
-[node name="HSplitContainer" type="HSplitContainer" parent="VBoxContainer/SplitContainer"]
+[node name="File System" parent="VBoxContainer/Panel/SplitContainer/TabContainer" instance=ExtResource("1_473ot")]
+layout_mode = 2
+
+[node name="HSplitContainer" type="HSplitContainer" parent="VBoxContainer/Panel/SplitContainer"]
 layout_mode = 2
 split_offset = 500
 
-[node name="TabContainer" type="TabContainer" parent="VBoxContainer/SplitContainer/HSplitContainer"]
+[node name="TabContainer" type="TabContainer" parent="VBoxContainer/Panel/SplitContainer/HSplitContainer"]
 layout_mode = 2
 
-[node name="Inspector" type="Panel" parent="VBoxContainer/SplitContainer/HSplitContainer"]
+[node name="TabContainer2" type="TabContainer" parent="VBoxContainer/Panel/SplitContainer/HSplitContainer"]
+layout_mode = 2
+
+[node name="Inspector" type="Panel" parent="VBoxContainer/Panel/SplitContainer/HSplitContainer/TabContainer2"]
 layout_mode = 2
 
 [node name="FileDialog" type="FileDialog" parent="."]
