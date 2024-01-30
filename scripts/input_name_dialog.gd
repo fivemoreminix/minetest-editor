@@ -19,16 +19,17 @@ enum {
 @onready var error_label = get_node(error_label_path)
 
 var validator = VALIDATOR_NONE
-var _varargs = []
+var _varargs: Array = []
 
 
 """
 varargs get passed along on signal emit.
 """
-func reset(validator, default_input="", title="Confirm", accept="OK", varargs=[]):
+func reset(validator, default_input="", title="Confirm", accept="OK", varargs: Array=[]):
 	self.validator = validator
 	input.text = default_input
 	self.title = title
+	get_ok_button().text = accept
 	_varargs = varargs
 	
 	if validator == VALIDATOR_NONE:
@@ -43,14 +44,14 @@ func validate():
 		VALIDATOR_NONE:
 			pass
 		VALIDATOR_FILE:
-			push_warning("Not yet implemented!") # TODO
+			push_error("Not yet implemented!") # TODO
 		VALIDATOR_ID:
 			if Project.is_valid_identifier(input.text):
 				error_label.text = ""
 				get_ok_button().disabled = false
 			else:
 				error_label.text = "A valid name contains only letters, numbers, and underscores."
-				get_ok_button().disabled = false
+				get_ok_button().disabled = true
 		_: push_error("Invalid value for validator")
 
 

@@ -202,13 +202,13 @@ func _on_dir_popup_menu_id_pressed(id):
 func _on_dir_create_new_submenu_id_pressed(id):
 	match id:
 		0: # Lua Script
-			input_name_dialog.reset(InputNameDialog.VALIDATOR_ID, "", "Create Script", "Lua")
+			input_name_dialog.reset(InputNameDialog.VALIDATOR_ID, "", "Create Script", "OK", ["Lua"])
 			input_name_dialog.popup_centered()
 		1: # Node
-			input_name_dialog.reset(InputNameDialog.VALIDATOR_ID, "", "Create Node", "ProjectNode")
+			input_name_dialog.reset(InputNameDialog.VALIDATOR_ID, "", "Create Node", "OK", ["ProjectNode"])
 			input_name_dialog.popup_centered()
 		2: # Craft
-			input_name_dialog.reset(InputNameDialog.VALIDATOR_ID, "", "Create Craft", "ProjectCraft")
+			input_name_dialog.reset(InputNameDialog.VALIDATOR_ID, "", "Create Craft", "OK", ["ProjectCraft"])
 			input_name_dialog.popup_centered()
 		_: pass
 
@@ -229,7 +229,7 @@ func _on_timer_timeout():
 	pass # TODO: Refresh the file system for changes
 
 
-func _on_input_name_dialog_input_submitted(input, varargs):
+func _on_input_name_dialog_input_submitted(input: String, varargs: Array):
 	# A single argument as a String representing the type of Resource to create
 	if len(varargs) == 1:
 		var resource
