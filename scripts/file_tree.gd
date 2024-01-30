@@ -1,5 +1,7 @@
 extends Tree
 
+signal resource_opened(resource: Resource)
+
 
 enum {
 	TYPE_FILE,
@@ -15,8 +17,13 @@ enum {
 @export_node_path("PopupMenu") var dir_menu_path
 @onready var dir_menu: PopupMenu = get_node(dir_menu_path)
 
+# Dialogs
+@export_node_path("InputNameDialog") var input_name_dialog_path
+@onready var input_name_dialog: InputNameDialog = get_node(input_name_dialog_path)
+
 
 var cwd = OS.get_user_data_dir()
+var visible_root: TreeItem
 
 func add_to_treeitem_from_dir_recursive(parent, path):
 	var dir = DirAccess.open(path)
@@ -50,8 +57,50 @@ func add_to_treeitem_from_dir_recursive(parent, path):
 			
 			file_name = dir.get_next()
 	else:
-		printerr("FileTree: Failed to open the new CWD")
+		push_error("FileTree: Failed to open the new CWD")
 		print_stack()
+
+
+"""
+get_item_by_path returns the TreeItem by its absolute path.
+
+Returns null if the path does not match a TreeItem.
+"""
+func get_item_by_path(path: String) -> TreeItem:
+	var path_parts = path.split("/", false)
+	# Skip parts until the value at i = root name
+	var i = 0
+	while i < len(path_parts):
+		var name = path_parts[i]
+		i += 1 # Increments before the break so that i != root name
+		if name == visible_root.get_text(0):
+			break
+	
+	# Root was not found, this path is not inside our workspace
+	if i >= len(path_parts):
+		return null
+	
+	# i = index of the child name in the root
+	var n = visible_root
+	while i < len(path_parts):
+		var name = path_parts[i]
+		
+		# Visit each child of n, to select a new n
+		var child_count = n.get_child_count()
+		var found = false
+		for j in range(child_count):
+			var child = n.get_child(j)
+			if child.get_text(0) == name:
+				n = child
+				found = true
+				break
+		
+		if not found:
+			return null
+		
+		i += 1
+	
+	return n
 
 
 func is_multi_selected():
@@ -67,6 +116,7 @@ func open_dir(dir):
 	var root = create_item() # root hidden
 	
 	var branch = create_item(root)
+	visible_root = branch
 	branch.set_icon_max_width(0, 18)
 	branch.set_text(0, dir.get_file())
 	branch.set_meta("path", dir)
@@ -151,6 +201,15 @@ func _on_dir_popup_menu_id_pressed(id):
 
 func _on_dir_create_new_submenu_id_pressed(id):
 	match id:
+		0: # Lua Script
+			input_name_dialog.reset(InputNameDialog.VALIDATOR_ID, "", "Create Script", "Lua")
+			input_name_dialog.popup_centered()
+		1: # Node
+			input_name_dialog.reset(InputNameDialog.VALIDATOR_ID, "", "Create Node", "ProjectNode")
+			input_name_dialog.popup_centered()
+		2: # Craft
+			input_name_dialog.reset(InputNameDialog.VALIDATOR_ID, "", "Create Craft", "ProjectCraft")
+			input_name_dialog.popup_centered()
 		_: pass
 
 
@@ -168,3 +227,23 @@ func _on_item_edited():
 
 func _on_timer_timeout():
 	pass # TODO: Refresh the file system for changes
+
+
+func _on_input_name_dialog_input_submitted(input, varargs):
+	# A single argument as a String representing the type of Resource to create
+	if len(varargs) == 1:
+		var resource
+		match varargs[0]:
+			"ProjectNode":
+				resource = ProjectNode.new(input)
+			_:
+				push_error("Resource type not implemented")
+				return
+		
+		var path = get_selected().get_meta("path") + '/' + input + '.tres'
+		if ResourceSaver.save(resource, path) != OK:
+			push_error("Failed to create resource", resource, path)
+		open_dir(cwd) # Refresh file system to show new file
+		var item = get_item_by_path(path)
+		set_selected(item, 0)
+		resource_opened.emit(resource)

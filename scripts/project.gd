@@ -17,6 +17,10 @@ func _init(name, kind):
 	self.kind = kind
 
 
+static func is_valid_identifier(text) -> bool:
+	return not text.is_empty() and text.is_valid_identifier()
+
+
 """
 open reads an existing project file configuration at file_path.
 

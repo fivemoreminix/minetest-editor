@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://b4h5hduopdy83"]
+[gd_scene load_steps=3 format=3 uid="uid://b4h5hduopdy83"]
 
 [ext_resource type="Script" path="res://scripts/file_tree.gd" id="1_t0aib"]
+[ext_resource type="PackedScene" uid="uid://bo0ho0ri766jd" path="res://ui/input_name_dialog.tscn" id="2_482xj"]
 
 [node name="FileTree" type="Tree"]
 allow_rmb_select = true
@@ -10,6 +11,7 @@ script = ExtResource("1_t0aib")
 item_menu_path = NodePath("ItemPopupMenu")
 multi_menu_path = NodePath("MultiPopupMenu")
 dir_menu_path = NodePath("DirPopupMenu")
+input_name_dialog_path = NodePath("InputNameDialog")
 
 [node name="ItemPopupMenu" type="PopupMenu" parent="."]
 item_count = 5
@@ -66,7 +68,8 @@ item_2/id = 2
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 5.0
-autostart = true
+
+[node name="InputNameDialog" parent="." instance=ExtResource("2_482xj")]
 
 [connection signal="item_edited" from="." to="." method="_on_item_edited"]
 [connection signal="item_mouse_selected" from="." to="." method="_on_item_mouse_selected"]
@@ -75,3 +78,4 @@ autostart = true
 [connection signal="id_pressed" from="DirPopupMenu" to="." method="_on_dir_popup_menu_id_pressed"]
 [connection signal="id_pressed" from="DirPopupMenu/CreateNewSubMenu" to="." method="_on_dir_create_new_submenu_id_pressed"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="input_submitted" from="InputNameDialog" to="." method="_on_input_name_dialog_input_submitted"]

@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://b4h5hduopdy83" path="res://ui/file_tree.tscn" id="1_473ot"]
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_xx10m"]
-[ext_resource type="PackedScene" uid="uid://b42hy2u72jocm" path="res://ui/CreateProjectDialog.tscn" id="3_8l6pc"]
+[ext_resource type="PackedScene" uid="uid://b42hy2u72jocm" path="res://ui/create_project_dialog.tscn" id="3_8l6pc"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
