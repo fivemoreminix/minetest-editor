@@ -57,6 +57,11 @@ func _test_path():
 		dir.list_dir_end()
 		
 		if not is_dir_empty:
+			if dir.file_exists(Project.MOD_FILENAME) or dir.file_exists(Project.GAME_FILENAME):
+				get_ok_button().disabled = true
+				error_label.text = "A project already exists in this directory. Choose another path or use Create Folder."
+				return
+			
 			if path == OS.get_environment("HOME") or path == OS.get_system_dir(OS.SYSTEM_DIR_DOCUMENTS):
 				get_ok_button().disabled = true
 				error_label.text = "A project cannot be created in this directory. Choose another path or use Create Folder."
