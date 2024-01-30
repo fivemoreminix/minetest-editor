@@ -202,13 +202,16 @@ func _on_dir_popup_menu_id_pressed(id):
 func _on_dir_create_new_submenu_id_pressed(id):
 	match id:
 		0: # Lua Script
-			input_name_dialog.reset(InputNameDialog.VALIDATOR_ID, "", "Create Script", "OK", ["Lua"])
+			input_name_dialog.reset(InputNameDialog.VALIDATOR_ID, "", "Create Script", "OK")
+			input_name_dialog.set_meta("resource", "Lua")
 			input_name_dialog.popup_centered()
 		1: # Node
-			input_name_dialog.reset(InputNameDialog.VALIDATOR_ID, "", "Create Node", "OK", ["ProjectNode"])
+			input_name_dialog.reset(InputNameDialog.VALIDATOR_ID, "", "Create Node", "OK")
+			input_name_dialog.set_meta("resource", "ProjectNode")
 			input_name_dialog.popup_centered()
 		2: # Craft
-			input_name_dialog.reset(InputNameDialog.VALIDATOR_ID, "", "Create Craft", "OK", ["ProjectCraft"])
+			input_name_dialog.reset(InputNameDialog.VALIDATOR_ID, "", "Create Craft", "OK")
+			input_name_dialog.set_meta("resource", "ProjectCraft")
 			input_name_dialog.popup_centered()
 		_: pass
 
@@ -229,16 +232,18 @@ func _on_timer_timeout():
 	pass # TODO: Refresh the file system for changes
 
 
-func _on_input_name_dialog_input_submitted(input: String, varargs: Array):
+func _on_input_name_dialog_input_submitted(input: String):
 	# A single argument as a String representing the type of Resource to create
-	if len(varargs) == 1:
+	if input_name_dialog.has_meta("resource"):
 		var resource
-		match varargs[0]:
+		match input_name_dialog.get_meta("resource"):
 			"ProjectNode":
 				resource = ProjectNode.new(input)
 			_:
 				push_error("Resource type not implemented")
 				return
+		
+		input_name_dialog.remove_meta("resource") # The meta was rented from the dialog
 		
 		var path = get_selected().get_meta("path") + '/' + input + '.tres'
 		if ResourceSaver.save(resource, path) != OK:

@@ -5,7 +5,7 @@ extends ConfirmationDialog
 input_submitted gets emitted when the user enters an input
 that passes validation and clicks the OK button.
 """
-signal input_submitted(input: String, varargs: Array)
+signal input_submitted(input: String)
 
 enum {
 	VALIDATOR_NONE,
@@ -19,18 +19,16 @@ enum {
 @onready var error_label = get_node(error_label_path)
 
 var validator = VALIDATOR_NONE
-var _varargs: Array = []
 
 
 """
 varargs get passed along on signal emit.
 """
-func reset(validator, default_input="", title="Confirm", accept="OK", varargs: Array=[]):
+func reset(validator, default_input="", title="Confirm", accept="OK"):
 	self.validator = validator
 	input.text = default_input
 	self.title = title
 	get_ok_button().text = accept
-	_varargs = varargs
 	
 	if validator == VALIDATOR_NONE:
 		error_label.text = ""
@@ -60,4 +58,4 @@ func _on_text_edit_text_changed():
 
 
 func _on_confirmed():
-	input_submitted.emit(input.text, _varargs)
+	input_submitted.emit(input.text)
