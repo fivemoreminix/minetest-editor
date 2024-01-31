@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://xo57ef1yowbr"]
+[gd_scene load_steps=6 format=3 uid="uid://xo57ef1yowbr"]
 
 [ext_resource type="PackedScene" uid="uid://b4h5hduopdy83" path="res://ui/file_tree.tscn" id="1_473ot"]
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_xx10m"]
-[ext_resource type="PackedScene" uid="uid://b42hy2u72jocm" path="res://ui/create_project_dialog.tscn" id="3_8l6pc"]
+[ext_resource type="PackedScene" uid="uid://b42hy2u72jocm" path="res://ui/dialog/create_project_dialog.tscn" id="3_8l6pc"]
+[ext_resource type="PackedScene" uid="uid://c4g41kxcxlu5o" path="res://ui/editor/editor.tscn" id="3_64ihn"]
 [ext_resource type="PackedScene" uid="uid://jndupn2mbwqt" path="res://ui/inspector.tscn" id="3_ryv8r"]
 
 [node name="Main" type="Control"]
@@ -15,6 +16,7 @@ grow_vertical = 2
 script = ExtResource("1_xx10m")
 menu_bar_path = NodePath("VBoxContainer/MenuBar")
 file_tree_path = NodePath("VBoxContainer/Panel/SplitContainer/TabContainer/File System")
+editor_path = NodePath("VBoxContainer/Panel/SplitContainer/HSplitContainer/Editor")
 inspector_path = NodePath("VBoxContainer/Panel/SplitContainer/HSplitContainer/TabContainer2/Inspector")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
@@ -44,10 +46,12 @@ layout_mode = 2
 size_flags_vertical = 3
 
 [node name="SplitContainer" type="SplitContainer" parent="VBoxContainer/Panel"]
-layout_mode = 2
-offset_top = 4.0
-offset_right = 1152.0
-offset_bottom = 613.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_vertical = 3
 split_offset = 300
 
@@ -61,7 +65,7 @@ layout_mode = 2
 layout_mode = 2
 split_offset = 500
 
-[node name="TabContainer" type="TabContainer" parent="VBoxContainer/Panel/SplitContainer/HSplitContainer"]
+[node name="Editor" parent="VBoxContainer/Panel/SplitContainer/HSplitContainer" instance=ExtResource("3_64ihn")]
 layout_mode = 2
 
 [node name="TabContainer2" type="TabContainer" parent="VBoxContainer/Panel/SplitContainer/HSplitContainer"]

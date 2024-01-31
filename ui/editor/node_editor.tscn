@@ -1,0 +1,75 @@
+[gd_scene load_steps=7 format=3 uid="uid://ifjn43em1bb0"]
+
+[ext_resource type="Script" path="res://ui/editor/node_editor.gd" id="1_3iii4"]
+[ext_resource type="Texture2D" uid="uid://csn053w0cq325" path="res://textures/default.png" id="2_jgn8o"]
+[ext_resource type="Script" path="res://scripts/editor/node_editor_3d.gd" id="2_wbnly"]
+[ext_resource type="Script" path="res://addons/orbit-controls/orbit-controls.gd" id="3_5uhem"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q5nhy"]
+albedo_texture = ExtResource("2_jgn8o")
+texture_filter = 0
+texture_repeat = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_tfrhc"]
+material = SubResource("StandardMaterial3D_q5nhy")
+
+[node name="NodeEditor" type="SubViewportContainer"]
+clip_contents = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+stretch = true
+script = ExtResource("1_3iii4")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(1152, 648)
+
+[node name="Node3D" type="Node3D" parent="SubViewport"]
+script = ExtResource("2_wbnly")
+
+[node name="OrbitControls" type="Control" parent="SubViewport/Node3D"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("3_5uhem")
+_camera = NodePath("../Camera3D")
+
+[node name="Camera3D" type="Camera3D" parent="SubViewport/Node3D"]
+transform = Transform3D(0.869082, -0.237157, 0.434112, 0, 0.877583, 0.479425, -0.494668, -0.41666, 0.762691, 1.73645, 1.9177, 3.05076)
+current = true
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewport/Node3D"]
+transform = Transform3D(0.996171, -0.0711472, 0.0508086, -0.0041144, 0.542361, 0.840136, -0.0873299, -0.837128, 0.539991, 0, 2.75192, 0)
+
+[node name="Cube" type="Node3D" parent="SubViewport/Node3D"]
+
+[node name="+Z" type="MeshInstance3D" parent="SubViewport/Node3D/Cube"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, 0.5)
+mesh = SubResource("QuadMesh_tfrhc")
+
+[node name="-Z" type="MeshInstance3D" parent="SubViewport/Node3D/Cube"]
+transform = Transform3D(-1, 3.48787e-16, -8.74228e-08, 3.48787e-16, 1, -3.48787e-16, 8.74228e-08, -3.48787e-16, -1, 2.08165e-12, 2.08165e-12, -0.5)
+mesh = SubResource("QuadMesh_tfrhc")
+
+[node name="+X" type="MeshInstance3D" parent="SubViewport/Node3D/Cube"]
+transform = Transform3D(-4.37114e-08, 3.48787e-16, 1, 3.48787e-16, 1, -3.48787e-16, -1, 3.48787e-16, -4.37114e-08, 0.5, 2.08165e-12, 2.08165e-12)
+mesh = SubResource("QuadMesh_tfrhc")
+
+[node name="-X" type="MeshInstance3D" parent="SubViewport/Node3D/Cube"]
+transform = Transform3D(-4.37114e-08, -3.48787e-16, -1, 3.48787e-16, 1, -3.48787e-16, 1, -3.48787e-16, -4.37114e-08, -0.5, 2.08165e-12, 2.08165e-12)
+mesh = SubResource("QuadMesh_tfrhc")
+
+[node name="+Y" type="MeshInstance3D" parent="SubViewport/Node3D/Cube"]
+transform = Transform3D(1, -6.97574e-16, -1.5246e-23, -1.5246e-23, -4.37114e-08, 1, -6.97574e-16, -1, -4.37114e-08, 2.08165e-12, 0.5, 2.08165e-12)
+mesh = SubResource("QuadMesh_tfrhc")
+
+[node name="-Y" type="MeshInstance3D" parent="SubViewport/Node3D/Cube"]
+transform = Transform3D(1, 0, -1.5246e-23, -1.5246e-23, -4.37114e-08, -1, 0, 1, -4.37114e-08, 2.08165e-12, -0.5, 2.08165e-12)
+mesh = SubResource("QuadMesh_tfrhc")

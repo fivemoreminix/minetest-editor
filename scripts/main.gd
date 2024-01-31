@@ -5,6 +5,8 @@ extends Control
 @onready var menu_bar: MenuBar = get_node(menu_bar_path)
 @export_node_path("Tree") var file_tree_path
 @onready var file_tree: Tree = get_node(file_tree_path)
+@export_node_path("TabContainer") var editor_path
+@onready var editor: Control = get_node(editor_path)
 @export_node_path("Control") var inspector_path
 @onready var inspector: Control = get_node(inspector_path)
 
@@ -49,6 +51,7 @@ func _on_menubar_file_id_pressed(id):
 
 
 func _on_file_system_resource_opened(resource):
+	editor.edit(resource)
 	inspector.edit(resource)
 
 

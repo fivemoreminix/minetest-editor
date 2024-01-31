@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://b42hy2u72jocm"]
 
-[ext_resource type="Script" path="res://scripts/create_project_dialog.gd" id="1_led5d"]
+[ext_resource type="Script" path="res://scripts/dialog/create_project_dialog.gd" id="1_led5d"]
 
 [node name="CreateProjectDialog" type="ConfirmationDialog"]
 title = "Create New Project"

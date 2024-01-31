@@ -24,6 +24,10 @@ EditorGlobal="*res://scripts/editor_global.gd"
 
 window/dpi/allow_hidpi=false
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/orbit-controls/plugin.cfg")
+
 [rendering]
 
 renderer/rendering_method="mobile"

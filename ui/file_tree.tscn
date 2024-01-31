@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://b4h5hduopdy83"]
 
 [ext_resource type="Script" path="res://scripts/file_tree.gd" id="1_t0aib"]
-[ext_resource type="PackedScene" uid="uid://bo0ho0ri766jd" path="res://ui/input_name_dialog.tscn" id="2_482xj"]
+[ext_resource type="PackedScene" uid="uid://bo0ho0ri766jd" path="res://ui/dialog/input_name_dialog.tscn" id="2_482xj"]
 
 [node name="FileTree" type="Tree"]
 allow_rmb_select = true

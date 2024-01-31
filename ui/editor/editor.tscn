@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://c4g41kxcxlu5o"]
+
+[ext_resource type="Script" path="res://scripts/editor/editor.gd" id="1_c0vf4"]
+
+[node name="Editor" type="TabContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+drag_to_rearrange_enabled = true
+script = ExtResource("1_c0vf4")
+
+[connection signal="tab_button_pressed" from="." to="." method="_on_tab_button_pressed"]

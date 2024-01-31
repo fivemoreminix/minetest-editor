@@ -1,5 +1,7 @@
 extends Panel
 
+signal resource_modified(resource: Resource)
+
 
 @export_node_path("VBoxContainer") var container_path
 @onready var container: VBoxContainer = get_node(container_path)
@@ -8,7 +10,7 @@ extends Panel
 var _resource: Resource = null
 
 
-func edit(resource: Resource):
+func edit(resource: Resource) -> void:
 	_clear()
 	
 	if not resource:
@@ -87,4 +89,5 @@ func _ready():
 
 
 func _on_property_updated(property_name, new_value):
-	print_debug(property_name, " changed, new value: ", str(new_value))
+	_resource.set(property_name, new_value)
+	resource_modified.emit(_resource)
