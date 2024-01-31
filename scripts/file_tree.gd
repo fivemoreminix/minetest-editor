@@ -238,7 +238,8 @@ func _on_input_name_dialog_input_submitted(input: String):
 		var resource
 		match input_name_dialog.get_meta("resource"):
 			"ProjectNode":
-				resource = ProjectNode.new(input)
+				resource = ProjectNode.new()
+				resource.name = input
 			_:
 				push_error("Resource type not implemented")
 				return
@@ -252,3 +253,9 @@ func _on_input_name_dialog_input_submitted(input: String):
 		var item = get_item_by_path(path)
 		set_selected(item, 0)
 		resource_opened.emit(resource)
+
+
+func _on_item_activated():
+	#var resource = ResourceLoader.load(get_selected().get_meta("path"), "Project")
+	var resource = load(get_selected().get_meta("path"))
+	resource_opened.emit(resource)

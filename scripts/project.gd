@@ -8,13 +8,16 @@ const PROJECT_GAME = "Game"
 const PROJECT_MOD = "Mod"
 
 var dir: String
-@export var name: String
-@export var kind: String
+@export var name: String = ""
+@export var kind: String = ""
 
 
-func _init(name, kind):
-	self.name = name
-	self.kind = kind
+# Little note to anyone working with Resources: the _init()
+# of all project resources must not contain arguments because
+# the engine will not be able to instantiate the class
+# when loading the .tscn file. See Object documentation.
+func _init():
+	pass
 
 
 static func is_valid_identifier(text) -> bool:
@@ -46,7 +49,9 @@ name should include only A-z 0-9 and underscores.
 kind is PROJECT_GAME or PROJECT_MOD.
 """
 static func create(dir, name, kind) -> Project:
-	var project = Project.new(name, kind)
+	var project = Project.new()
+	project.name = name
+	project.kind = kind
 	project.dir = dir
 	project.save()
 	return project

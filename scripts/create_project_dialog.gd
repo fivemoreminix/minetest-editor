@@ -24,7 +24,7 @@ func get_project_kind():
 
 
 func _test_name():
-	if Project.is_valid_identifier(project_name.text):
+	if not Project.is_valid_identifier(project_name.text):
 		create_folder.disabled = true
 		get_ok_button().disabled = true
 		

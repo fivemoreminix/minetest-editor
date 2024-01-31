@@ -3,6 +3,8 @@ extends Control
 
 @export_node_path("Tree") var file_tree_path
 @onready var file_tree = get_node(file_tree_path)
+@export_node_path("Control") var inspector_path
+@onready var inspector = get_node(inspector_path)
 
 
 # Called when the node enters the scene tree for the first time.
@@ -28,3 +30,7 @@ func _on_menubar_file_id_pressed(id):
 			)
 			dialog.popup_centered_ratio()
 		_: pass
+
+
+func _on_file_system_resource_opened(resource):
+	inspector.edit(resource)
