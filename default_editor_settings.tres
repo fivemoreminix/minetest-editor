@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="EditorGlobalSettings" load_steps=2 format=3 uid="uid://ck4qshrwvex4x"]
+
+[ext_resource type="Script" path="res://scripts/editor_global_settings.gd" id="1_eopj2"]
+
+[resource]
+script = ExtResource("1_eopj2")
+limit_recents = 10
+recents = Array[String]([])

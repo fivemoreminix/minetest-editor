@@ -16,6 +16,10 @@ config/features=PackedStringArray("4.2", "Mobile")
 run/low_processor_mode=true
 config/icon="res://icon.svg"
 
+[autoload]
+
+EditorGlobal="*res://scripts/editor_global.gd"
+
 [display]
 
 window/dpi/allow_hidpi=false

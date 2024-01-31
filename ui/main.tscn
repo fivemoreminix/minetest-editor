@@ -13,6 +13,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_xx10m")
+menu_bar_path = NodePath("VBoxContainer/MenuBar")
 file_tree_path = NodePath("VBoxContainer/Panel/SplitContainer/TabContainer/File System")
 inspector_path = NodePath("VBoxContainer/Panel/SplitContainer/HSplitContainer/TabContainer2/Inspector")
 
@@ -28,11 +29,15 @@ grow_vertical = 2
 layout_mode = 2
 
 [node name="File" type="PopupMenu" parent="VBoxContainer/MenuBar"]
-item_count = 2
+item_count = 3
 item_0/text = "Open Folder..."
 item_0/id = 0
 item_1/text = "New Project..."
 item_1/id = 1
+item_2/text = "Open Recent"
+item_2/id = 2
+
+[node name="RecentsMenu" type="PopupMenu" parent="VBoxContainer/MenuBar/File"]
 
 [node name="Panel" type="Panel" parent="VBoxContainer"]
 layout_mode = 2
@@ -70,4 +75,7 @@ layout_mode = 2
 [node name="CreateProjectDialog" parent="." instance=ExtResource("3_8l6pc")]
 
 [connection signal="id_pressed" from="VBoxContainer/MenuBar/File" to="." method="_on_menubar_file_id_pressed"]
+[connection signal="about_to_popup" from="VBoxContainer/MenuBar/File/RecentsMenu" to="." method="_on_recents_menu_about_to_popup"]
+[connection signal="id_pressed" from="VBoxContainer/MenuBar/File/RecentsMenu" to="." method="_on_recents_menu_id_pressed"]
+[connection signal="popup_hide" from="VBoxContainer/MenuBar/File/RecentsMenu" to="." method="_on_recents_menu_popup_hide"]
 [connection signal="resource_opened" from="VBoxContainer/Panel/SplitContainer/TabContainer/File System" to="." method="_on_file_system_resource_opened"]
