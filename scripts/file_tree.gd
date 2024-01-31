@@ -256,6 +256,9 @@ func _on_input_name_dialog_input_submitted(input: String):
 
 
 func _on_item_activated():
-	#var resource = ResourceLoader.load(get_selected().get_meta("path"), "Project")
+	if get_selected().get_meta("type") == TYPE_DIR:
+		get_selected().collapsed = not get_selected().collapsed
+		return
+	
 	var resource = load(get_selected().get_meta("path"))
 	resource_opened.emit(resource)
