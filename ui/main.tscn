@@ -83,3 +83,4 @@ layout_mode = 2
 [connection signal="id_pressed" from="VBoxContainer/MenuBar/File/RecentsMenu" to="." method="_on_recents_menu_id_pressed"]
 [connection signal="popup_hide" from="VBoxContainer/MenuBar/File/RecentsMenu" to="." method="_on_recents_menu_popup_hide"]
 [connection signal="resource_opened" from="VBoxContainer/Panel/SplitContainer/TabContainer/File System" to="." method="_on_file_system_resource_opened"]
+[connection signal="tab_changed" from="VBoxContainer/Panel/SplitContainer/HSplitContainer/Editor" to="." method="_on_editor_tab_changed"]

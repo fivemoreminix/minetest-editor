@@ -76,3 +76,9 @@ func _on_recents_menu_id_pressed(id):
 	
 	var dir = EditorGlobal.get_settings().recents[id]
 	open_dir(dir)
+
+
+func _on_editor_tab_changed(tab):
+	var t = editor.get_tab_control(tab)
+	var resource = t.resource if "resource" in t else null
+	inspector.edit(resource)
