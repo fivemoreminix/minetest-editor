@@ -25,7 +25,15 @@ func _on_menubar_file_id_pressed(id):
 		1: # New Project
 			var dialog = $CreateProjectDialog
 			dialog.confirmed.connect(func():
-				var project = Project.create(dialog.get_project_path(), dialog.get_project_name(), dialog.get_project_kind())
+				var project_type = dialog.get_project_type()
+				if project_type is Project.Mod or project_type is Project.ModPack:
+					project_type.name = dialog.get_project_name()
+				elif project_type is Project.Game:
+					project_type.title = dialog.get_project_name()
+				else:
+					assert(false, "unreachable")
+				
+				var project = Project.create(dialog.get_project_path(), project_type)
 				file_tree.open_dir(project.dir)
 			)
 			dialog.popup_centered_ratio()

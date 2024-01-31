@@ -4,7 +4,7 @@ extends ConfirmationDialog
 @onready var project_name = $VBoxContainer/VBoxContainer/HBoxContainer/ProjectName
 @onready var project_path = $VBoxContainer/VBoxContainer/HBoxContainer2/ProjectPath
 @onready var error_label = $VBoxContainer/VBoxContainer/ErrorLabel
-@onready var project_kind = $VBoxContainer/VBoxContainer2/ProjectKind
+@onready var project_type = $VBoxContainer/VBoxContainer2/ProjectType
 @onready var create_folder = $VBoxContainer/VBoxContainer/HBoxContainer/CreateFolder
 
 
@@ -16,11 +16,11 @@ func get_project_path():
 	return project_path.text
 
 
-func get_project_kind():
-	if project_kind.get_selected_id() == 0:
-		return Project.PROJECT_MOD
+func get_project_type():
+	if project_type.get_selected_id() == 0:
+		return Project.Mod.new()
 	else:
-		return Project.PROJECT_GAME
+		return Project.Game.new()
 
 
 func _test_name():
@@ -57,7 +57,7 @@ func _test_path():
 		dir.list_dir_end()
 		
 		if not is_dir_empty:
-			if dir.file_exists(Project.MOD_FILENAME) or dir.file_exists(Project.GAME_FILENAME):
+			if dir.file_exists(Project.Mod.FILENAME) or dir.file_exists(Project.Game.FILENAME):
 				get_ok_button().disabled = true
 				error_label.text = "A project already exists in this directory. Choose another path or use Create Folder."
 				return

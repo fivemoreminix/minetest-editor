@@ -126,9 +126,9 @@ func open_dir(dir):
 	
 	var d = DirAccess.open(dir)
 	if d:
-		if d.file_exists(Project.MOD_FILENAME):
+		if d.file_exists(Project.Mod.FILENAME):
 			branch.set_icon(0, preload("res://icons/settings-white.svg"))
-		elif d.file_exists(Project.GAME_FILENAME):
+		elif d.file_exists(Project.Game.FILENAME):
 			branch.set_icon(0, preload("res://icons/settings-white.svg"))
 		else:
 			branch.set_icon(0, preload("res://icons/folder-white.svg"))
