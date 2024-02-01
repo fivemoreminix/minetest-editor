@@ -29,6 +29,7 @@ script = ExtResource("1_3iii4")
 transparent_bg = true
 handle_input_locally = false
 size = Vector2i(1152, 648)
+render_target_update_mode = 4
 
 [node name="Node3D" type="Node3D" parent="SubViewport"]
 script = ExtResource("2_wbnly")
