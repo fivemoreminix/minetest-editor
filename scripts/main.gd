@@ -82,3 +82,13 @@ func _on_editor_tab_changed(tab):
 	var t = editor.get_tab_control(tab)
 	var resource = t.resource if "resource" in t else null
 	inspector.edit(resource)
+
+
+func _on_help_id_pressed(id):
+	match id:
+		0: # Minetest API
+			OS.shell_open("https://api.minetest.net")
+		1: # Minetest Modding Book
+			OS.shell_open("https://rubenwardy.com/minetest_modding_book/en/index.html")
+		2: # Minetest Discord
+			OS.shell_open("https://discord.gg/minetest")

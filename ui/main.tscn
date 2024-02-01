@@ -14,12 +14,21 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_xx10m")
-menu_bar_path = NodePath("VBoxContainer/MenuBar")
-file_tree_path = NodePath("VBoxContainer/Panel/SplitContainer/TabContainer/File System")
-editor_path = NodePath("VBoxContainer/Panel/SplitContainer/HSplitContainer/Editor")
-inspector_path = NodePath("VBoxContainer/Panel/SplitContainer/HSplitContainer/TabContainer2/Inspector")
+menu_bar_path = NodePath("Panel/VBoxContainer/MenuBar")
+file_tree_path = NodePath("Panel/VBoxContainer/SplitContainer/TabContainer/File System")
+editor_path = NodePath("Panel/VBoxContainer/SplitContainer/HSplitContainer/Editor")
+inspector_path = NodePath("Panel/VBoxContainer/SplitContainer/HSplitContainer/TabContainer2/Inspector")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -27,10 +36,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MenuBar" type="MenuBar" parent="VBoxContainer"]
+[node name="MenuBar" type="MenuBar" parent="Panel/VBoxContainer"]
 layout_mode = 2
+flat = true
 
-[node name="File" type="PopupMenu" parent="VBoxContainer/MenuBar"]
+[node name="File" type="PopupMenu" parent="Panel/VBoxContainer/MenuBar"]
 item_count = 3
 item_0/text = "Open Folder..."
 item_0/id = 0
@@ -39,55 +49,56 @@ item_1/id = 1
 item_2/text = "Open Recent"
 item_2/id = 2
 
-[node name="RecentsMenu" type="PopupMenu" parent="VBoxContainer/MenuBar/File"]
+[node name="RecentsMenu" type="PopupMenu" parent="Panel/VBoxContainer/MenuBar/File"]
 
-[node name="Panel" type="Panel" parent="VBoxContainer"]
+[node name="Help" type="PopupMenu" parent="Panel/VBoxContainer/MenuBar"]
+item_count = 3
+item_0/text = "Minetest API Docs"
+item_0/id = 0
+item_1/text = "Minetest Modding Book"
+item_1/id = 1
+item_2/text = "Minetest on Discord"
+item_2/id = 2
+
+[node name="SplitContainer" type="HSplitContainer" parent="Panel/VBoxContainer"]
 layout_mode = 2
-size_flags_vertical = 3
-
-[node name="SplitContainer" type="HSplitContainer" parent="VBoxContainer/Panel"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
 size_flags_vertical = 3
 split_offset = -100
 
-[node name="TabContainer" type="TabContainer" parent="VBoxContainer/Panel/SplitContainer"]
+[node name="TabContainer" type="TabContainer" parent="Panel/VBoxContainer/SplitContainer"]
 custom_minimum_size = Vector2(200, 2.08165e-12)
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="File System" parent="VBoxContainer/Panel/SplitContainer/TabContainer" instance=ExtResource("1_473ot")]
+[node name="File System" parent="Panel/VBoxContainer/SplitContainer/TabContainer" instance=ExtResource("1_473ot")]
 layout_mode = 2
 
-[node name="HSplitContainer" type="HSplitContainer" parent="VBoxContainer/Panel/SplitContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 2.0
-
-[node name="Editor" parent="VBoxContainer/Panel/SplitContainer/HSplitContainer" instance=ExtResource("3_64ihn")]
+[node name="HSplitContainer" type="HSplitContainer" parent="Panel/VBoxContainer/SplitContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.0
 
-[node name="TabContainer2" type="TabContainer" parent="VBoxContainer/Panel/SplitContainer/HSplitContainer"]
+[node name="Editor" parent="Panel/VBoxContainer/SplitContainer/HSplitContainer" instance=ExtResource("3_64ihn")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="TabContainer2" type="TabContainer" parent="Panel/VBoxContainer/SplitContainer/HSplitContainer"]
 custom_minimum_size = Vector2(200, 2.08165e-12)
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Inspector" parent="VBoxContainer/Panel/SplitContainer/HSplitContainer/TabContainer2" instance=ExtResource("3_ryv8r")]
+[node name="Inspector" parent="Panel/VBoxContainer/SplitContainer/HSplitContainer/TabContainer2" instance=ExtResource("3_ryv8r")]
 layout_mode = 2
 
 [node name="FileDialog" type="FileDialog" parent="."]
 
 [node name="CreateProjectDialog" parent="." instance=ExtResource("3_8l6pc")]
 
-[connection signal="id_pressed" from="VBoxContainer/MenuBar/File" to="." method="_on_menubar_file_id_pressed"]
-[connection signal="about_to_popup" from="VBoxContainer/MenuBar/File/RecentsMenu" to="." method="_on_recents_menu_about_to_popup"]
-[connection signal="id_pressed" from="VBoxContainer/MenuBar/File/RecentsMenu" to="." method="_on_recents_menu_id_pressed"]
-[connection signal="popup_hide" from="VBoxContainer/MenuBar/File/RecentsMenu" to="." method="_on_recents_menu_popup_hide"]
-[connection signal="resource_opened" from="VBoxContainer/Panel/SplitContainer/TabContainer/File System" to="." method="_on_file_system_resource_opened"]
-[connection signal="tab_changed" from="VBoxContainer/Panel/SplitContainer/HSplitContainer/Editor" to="." method="_on_editor_tab_changed"]
+[connection signal="id_pressed" from="Panel/VBoxContainer/MenuBar/File" to="." method="_on_menubar_file_id_pressed"]
+[connection signal="about_to_popup" from="Panel/VBoxContainer/MenuBar/File/RecentsMenu" to="." method="_on_recents_menu_about_to_popup"]
+[connection signal="id_pressed" from="Panel/VBoxContainer/MenuBar/File/RecentsMenu" to="." method="_on_recents_menu_id_pressed"]
+[connection signal="popup_hide" from="Panel/VBoxContainer/MenuBar/File/RecentsMenu" to="." method="_on_recents_menu_popup_hide"]
+[connection signal="id_pressed" from="Panel/VBoxContainer/MenuBar/Help" to="." method="_on_help_id_pressed"]
+[connection signal="resource_opened" from="Panel/VBoxContainer/SplitContainer/TabContainer/File System" to="." method="_on_file_system_resource_opened"]
+[connection signal="tab_changed" from="Panel/VBoxContainer/SplitContainer/HSplitContainer/Editor" to="." method="_on_editor_tab_changed"]
