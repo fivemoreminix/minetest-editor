@@ -41,8 +41,6 @@ class ModPack:
 
 @export var type: ProjectType = null
 
-var dir: String
-
 
 # Little note to anyone working with Resources: the _init()
 # of all project resources must not contain arguments because
@@ -66,7 +64,6 @@ Returns null if file_path does not contain a valid config.
 static func open(file_path: String) -> Project:
 	if ResourceLoader.exists(file_path):
 		var project = load(file_path)
-		project.dir = file_path.get_base_dir()
 		return project
 	return null
 
@@ -76,18 +73,25 @@ create initializes a directory with the given project name.
 This does not create the containing directory; the files are
 created inside `dir`.
 
-dir is the path of an empty directory.
+path is the path to the new project .tres resource file in an empty directory.
+Other files may be created or overwritten in the directory.
 
 kind contains all of the data about the type of project.
 """
-static func create(dir: String, type: ProjectType) -> Project:
+static func create(path: String, type: ProjectType) -> Project:
 	var project = Project.new()
 	project.type = type
-	project.dir = dir
+	project.take_over_path(path)
 	project.save()
 	return project
 
 
+func get_dir() -> String:
+	assert(not resource_path.is_empty())
+	return resource_path.get_base_dir()
+
+
 func save():
 	assert(type != null)
-	ResourceSaver.save(self, dir + '/' + type.FILENAME)
+	assert(not resource_path.is_empty())
+	ResourceSaver.save(self)

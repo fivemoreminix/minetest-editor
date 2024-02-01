@@ -43,8 +43,9 @@ func _on_menubar_file_id_pressed(id):
 				else:
 					assert(false, "unreachable")
 				
-				var project = Project.create(dialog.get_project_path(), project_type)
-				open_dir(project.dir)
+				var project_path = dialog.get_project_path() + '/' + project_type.FILENAME
+				var project = Project.create(project_path, project_type)
+				open_dir(project.get_dir())
 			)
 			dialog.popup_centered_ratio()
 		_: pass
