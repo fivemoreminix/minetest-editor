@@ -57,7 +57,8 @@ func edit(resource: Resource) -> void:
 				check.text = "On"
 				check.button_pressed = resource.get(p_name)
 				check.toggled.connect(func(new_value): _on_property_updated(p_name, new_value))
-				container.add_child(check)
+				container.add_child(_background(check))
+				check.set_anchors_preset(PRESET_HCENTER_WIDE)
 			TYPE_STRING:
 				var input = LineEdit.new()
 				input.name = p_name
@@ -75,6 +76,20 @@ func edit(resource: Resource) -> void:
 
 func get_resource():
 	return _resource
+
+
+"""
+_background creates a Panel with an alternate background as the parent of
+the provided `child` control.
+"""
+func _background(child: Control) -> Panel:
+	var panel = Panel.new()
+	panel.custom_minimum_size.y = 36
+	child.custom_minimum_size.y = 36
+	panel.add_theme_stylebox_override("panel", preload("res://theme/panel_accentuated.tres"))
+	panel.add_child(child)
+	child.set_anchors_preset(PRESET_FULL_RECT)
+	return panel
 
 
 func _clear():
