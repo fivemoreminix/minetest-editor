@@ -32,6 +32,7 @@ func edit(resource: Resource) -> void:
 		
 		var p_name = property.name
 		var p_hint = property.hint
+		var p_hintstring = property.hint_string
 		var p_classname = property.class_name
 		var p_type = property.type # @GlobalScope.Variant.Type
 		var p_usage = property.usage
@@ -59,14 +60,41 @@ func edit(resource: Resource) -> void:
 				check.toggled.connect(func(new_value): _on_property_updated(p_name, new_value))
 				container.add_child(_background(check))
 				check.set_anchors_preset(PRESET_HCENTER_WIDE)
-			TYPE_STRING:
-				var input = LineEdit.new()
+			TYPE_INT:
+				var input = SpinBox.new()
 				input.name = p_name
-				input.text = resource.get(p_name)
-				input.clear_button_enabled = true
-				input.custom_minimum_size.y = 36
-				input.text_submitted.connect(func(new_value): _on_property_updated(p_name, new_value))
+				input.value = resource.get(p_name)
+				input.rounded = true
+				if p_hint == PROPERTY_HINT_RANGE:
+					var hints = p_hintstring.split(",")
+					if len(hints) > 0 and hints[0].is_valid_int():
+							input.min_value = int(hints[0])
+							input.max_value = int(hints[1])
+							if len(hints) > 2 and hints[2].is_valid_int():
+								input.step = int(hints[2])
+				else:
+					input.allow_greater = true
+					input.allow_lesser = true
+				input.value_changed.connect(func(new_value): _on_property_updated(p_name, new_value))
 				container.add_child(input)
+			TYPE_STRING:
+				if p_hint == PROPERTY_HINT_ENUM:
+					var input = OptionButton.new()
+					input.name = p_name
+					var options = p_hintstring.split(",")
+					for option in options:
+						input.add_item(option.capitalize())
+					input.selected = options.find(resource.get(p_name))
+					input.item_selected.connect(func(idx): _on_property_updated(p_name, options[idx]))
+					container.add_child(input)
+				else:
+					var input = LineEdit.new()
+					input.name = p_name
+					input.text = resource.get(p_name)
+					input.clear_button_enabled = true
+					input.custom_minimum_size.y = 36
+					input.text_submitted.connect(func(new_value): _on_property_updated(p_name, new_value))
+					container.add_child(input)
 			_:
 				var l = Label.new()
 				l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
