@@ -69,6 +69,7 @@ func edit(resource: Resource) -> void:
 				container.add_child(input)
 			_:
 				var l = Label.new()
+				l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 				l.text = "(Property type has not been implemented.)"
 				container.add_child(l)
 				push_error("Property type has not been implemented.")
