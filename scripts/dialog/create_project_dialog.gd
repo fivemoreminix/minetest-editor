@@ -1,6 +1,15 @@
 extends ConfirmationDialog
 
 
+enum {
+	OK,
+	WARNING,
+	ERROR
+}
+
+@export_color_no_alpha var error_color
+@export_color_no_alpha var warning_color
+
 @onready var project_name = $VBoxContainer/VBoxContainer/HBoxContainer/ProjectName
 @onready var project_path = $VBoxContainer/VBoxContainer/HBoxContainer2/ProjectPath
 @onready var error_label = $VBoxContainer/VBoxContainer/ErrorLabel
@@ -23,17 +32,25 @@ func get_project_type():
 		return Project.Game.new()
 
 
+func _status(status: int, text: String) -> void:
+	error_label.text = text
+	get_ok_button().disabled = false
+	if status == WARNING:
+		error_label.add_theme_color_override("font_color", warning_color)
+	elif status == ERROR:
+		error_label.add_theme_color_override("font_color", error_color)
+		get_ok_button().disabled = true
+
+
 func _test_name():
 	if not Project.is_valid_identifier(project_name.text):
 		create_folder.disabled = true
-		get_ok_button().disabled = true
-		
-		error_label.text = "Mod and Game names may contain only letters, numbers, and underscores."
+		_status(ERROR, "Mod and Game names may contain only letters, numbers, and underscores.")
 		return
 	
 	# _test_name succeeded
 	create_folder.disabled = false
-	get_ok_button().disabled = false
+	_status(OK, "")
 	_test_path() # Update the error label to whatever _test_path() wants
 
 
@@ -41,7 +58,7 @@ func _test_path():
 	var path = project_path.text
 	var dir = DirAccess.open(path)
 	if dir:
-		var is_dir_empty = false
+		var is_dir_empty = true
 		
 		dir.list_dir_begin()
 		var file = dir.get_next()
@@ -58,23 +75,18 @@ func _test_path():
 		
 		if not is_dir_empty:
 			if dir.file_exists(Project.Mod.FILENAME) or dir.file_exists(Project.Game.FILENAME):
-				get_ok_button().disabled = true
-				error_label.text = "A project already exists in this directory. Choose another path or use Create Folder."
+				_status(ERROR, "A project already exists in this directory. Choose another path or use Create Folder.")
 				return
 			
 			if path == OS.get_environment("HOME") or path == OS.get_system_dir(OS.SYSTEM_DIR_DOCUMENTS):
-				get_ok_button().disabled = true
-				error_label.text = "A project cannot be created in this directory. Choose another path or use Create Folder."
+				_status(ERROR, "A project cannot be created in this directory. Choose another path or use Create Folder.")
 				return
 			
-			get_ok_button().disabled = false
-			error_label.text = "Warning: The chosen directory is not empty, but you can still create a project."
-		
-		get_ok_button().disabled = false
-		error_label.text = ""
+			_status(WARNING, "Warning: The chosen directory is not empty, but you can still create a project.")
+		else:
+			_status(OK, "")
 	else:
-		get_ok_button().disabled = true
-		error_label.text = "The current path is not a directory."
+		_status(ERROR, "The current path is not a directory.")
 
 
 # Called when the node enters the scene tree for the first time.
