@@ -69,16 +69,17 @@ func edit(resource: Resource) -> void:
 					var hints = p_hintstring.split(",")
 					# TODO: implement the PROPERTY_HINT_RANGE hint string flags
 					if not (len(hints) > 0 and hints[0].is_valid_int()):
-						push_error("Unsupported hint string")
+						push_error("Unsupported hint string: ", p_hintstring)
 						input.free()
 						continue
 					input.min_value = int(hints[0])
 					input.max_value = int(hints[1])
-					if not (len(hints) > 2 and hints[2].is_valid_int()):
-						push_error("Unsupported hint string")
-						input.free()
-						continue
-					input.step = int(hints[2])
+					if len(hints) > 2:
+						if not hints[2].is_valid_int():
+							push_error("Unsupported hint string: ", p_hintstring)
+							input.free()
+							continue
+						input.step = int(hints[2])
 				else:
 					input.allow_greater = true
 					input.allow_lesser = true
@@ -122,7 +123,7 @@ func _background(child: Control) -> Panel:
 	var panel = Panel.new()
 	panel.custom_minimum_size.y = 36
 	child.custom_minimum_size.y = 36
-	panel.add_theme_stylebox_override("panel", preload("res://theme/panel_accentuated.tres"))
+	panel.add_theme_stylebox_override("panel", preload("res://themes/panel_accentuated.tres"))
 	panel.add_child(child)
 	child.set_anchors_preset(PRESET_FULL_RECT)
 	return panel
