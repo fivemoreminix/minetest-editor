@@ -1,7 +1,7 @@
 extends SubViewportContainer
 
 
-var resource = null
+var resource: ProjectNode = null
 
 
 # Called when the node enters the scene tree for the first time.

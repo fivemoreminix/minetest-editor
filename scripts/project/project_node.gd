@@ -39,7 +39,7 @@ var use_texture_alpha: String
 
 func get_hidden_inspector_properties() -> PackedStringArray:
 	var arr = super.get_hidden_inspector_properties()
-	arr.append_array(PackedStringArray(["drawtype", "tiles"]))
+	arr.append_array(PackedStringArray(["tiles"]))
 	return arr
 
 
