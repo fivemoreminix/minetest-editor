@@ -67,11 +67,18 @@ func edit(resource: Resource) -> void:
 				input.rounded = true
 				if p_hint == PROPERTY_HINT_RANGE:
 					var hints = p_hintstring.split(",")
-					if len(hints) > 0 and hints[0].is_valid_int():
-							input.min_value = int(hints[0])
-							input.max_value = int(hints[1])
-							if len(hints) > 2 and hints[2].is_valid_int():
-								input.step = int(hints[2])
+					# TODO: implement the PROPERTY_HINT_RANGE hint string flags
+					if not (len(hints) > 0 and hints[0].is_valid_int()):
+						push_error("Unsupported hint string")
+						input.free()
+						continue
+					input.min_value = int(hints[0])
+					input.max_value = int(hints[1])
+					if not (len(hints) > 2 and hints[2].is_valid_int()):
+						push_error("Unsupported hint string")
+						input.free()
+						continue
+					input.step = int(hints[2])
 				else:
 					input.allow_greater = true
 					input.allow_lesser = true
